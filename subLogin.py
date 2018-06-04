@@ -29,7 +29,7 @@ headers = {
 
 
 def database():
-    conn = mysql.connector.connect(user='root', password='123456', database='material_download')
+    conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     return conn.cursor()
 
 def login(browser, account, password):
@@ -154,7 +154,7 @@ def main():
     display = Display(visible=0, size=(800, 800))
     display.start()
     browser = webdriver.Chrome()
-    conn = mysql.connector.connect(user='root', password='123456', database='material_download')
+    conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     account_sub = 0
 
@@ -218,7 +218,7 @@ def download():
     display.start()
 
     browser = webdriver.Chrome()
-    conn = mysql.connector.connect(user='root', password='123456', database='material_download')
+    conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     cursor.execute('select * from config where config_key = 6')
     account_values = cursor.fetchall()
