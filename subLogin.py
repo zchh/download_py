@@ -161,6 +161,14 @@ def main():
     cursor.execute('select * from account where type = %s and have_block = 0 and is_close = 0', ('1',))
     account_values = cursor.fetchall()
 
+    cursor.execute('UPDATE config SET config_value=%s WHERE config_key=10',
+                   [22])
+    account_values = cursor.rowcount
+    conn.commit()
+
+
+
+
     # 登陆,被封号或有滑块验证，立马切号
     user_id = change_login(browser, conn, account_values, account_sub)
     # if user_id == 0:
