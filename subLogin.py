@@ -197,7 +197,7 @@ def main():
         account_values = cursor.rowcount
         conn.commit()
         return json.dumps({'code': 200, 'msg': '登录成功'})
-	browser.quit()
+	browser.close()
 
 
 
@@ -284,7 +284,7 @@ def download():
                    [user_id, 1, time_str])
     account_values = cursor.rowcount
     conn.commit()
-    #browser.close()
+    browser.close()
     return json.dumps({'code': 200, 'msg': '下载成功'})
 
 
