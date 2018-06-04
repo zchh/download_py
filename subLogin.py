@@ -219,6 +219,8 @@ def download():
     display.start()
 
     browser = webdriver.Chrome()
+    browser.get('https://www.baidu.com/')
+
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     cursor.execute('select * from config where config_key = 6')
