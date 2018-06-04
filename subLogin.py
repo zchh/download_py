@@ -7,6 +7,7 @@ import mysql.connector
 import json
 import flask
 from flask import request,redirect,url_for #想获取到请求参数的话，就得用这个
+from pyvirtualdisplay import Display #linux
 server = flask.Flask(__name__) #把这个python文件当做一个web服务
 
 from selenium.webdriver.support.ui import WebDriverWait
@@ -148,6 +149,10 @@ def main():
 
     # 建立Phantomjs浏览器对象，括号里是phantomjs.exe在你的电脑上的路径
     # browser = webdriver.PhantomJS('d:/tool/07-net/phantomjs-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe')
+
+    # linux
+    display = Display(visible=0, size=(800, 800))
+    display.start()
     browser = webdriver.Chrome()
     conn = mysql.connector.connect(user='root', password='123456', database='material_download')
     cursor = conn.cursor()
@@ -207,6 +212,11 @@ def download():
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
     # 建立Phantomjs浏览器对象，括号里是phantomjs.exe在你的电脑上的路径
     # browser = webdriver.PhantomJS('d:/tool/07-net/phantomjs-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe')
+
+    # linux
+    display = Display(visible=0, size=(800, 800))
+    display.start()
+
     browser = webdriver.Chrome()
     conn = mysql.connector.connect(user='root', password='123456', database='material_download')
     cursor = conn.cursor()
