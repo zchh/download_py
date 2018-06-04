@@ -197,6 +197,7 @@ def main():
         account_values = cursor.rowcount
         conn.commit()
         return json.dumps({'code': 200, 'msg': '登录成功'})
+	browser.quit()
 
 
 
