@@ -138,7 +138,6 @@ def have_register(browser):
     except:
         return 0
 
-
 def getResponse(code, msg, data):
     return json.dumps({'code':code, 'msg':msg, 'data':data}, ensure_ascii=False, encoding='gb2312')
 
