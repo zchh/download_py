@@ -153,7 +153,9 @@ def main():
     # linux
     display = Display(visible=0, size=(800, 800))
     display.start()
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome('/usr/local/bin/chromedriver')
+    browser.get('https://www.baidu.com')
+    print('11')
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     account_sub = 0
@@ -226,8 +228,7 @@ def download():
     display = Display(visible=0, size=(800, 800))
     display.start()
 
-    browser = webdriver.Chrome()
-    browser.get('https://www.baidu.com/')
+    browser = webdriver.Chrome('/usr/local/bin/chromedriver')
 
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
