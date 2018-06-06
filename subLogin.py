@@ -41,24 +41,24 @@ def login(browser, account, password):
     browser.implicitly_wait(1)
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('switcher_plogin'))
-    # pLogin_a = browser.find_element_by_id('switcher_plogin')
+    pLogin_a = browser.find_element_by_id('switcher_plogin')
 
     pLogin_a.click()
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('u'))
-    # username = browser.find_element_by_name('u')
+    username = browser.find_element_by_name('u')
 
     username.clear()
     username.send_keys(account)
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('p'))
-    # password_e = browser.find_element_by_name('p')
+    password_e = browser.find_element_by_name('p')
 
     password_e.clear()
     password_e.send_keys(password)
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('login_button'))
-    # login_button = browser.find_element_by_id('login_button')
+    login_button = browser.find_element_by_id('login_button')
 
     login_button.click()
 
