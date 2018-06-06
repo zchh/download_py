@@ -1,3 +1,4 @@
+
 import requests
 import sys
 import io
@@ -144,7 +145,7 @@ def getResponse(code, msg, data):
 @server.route('/login', methods=['GET'])
 def main():
     # try:
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
+    # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 
     # 建立Phantomjs浏览器对象，括号里是phantomjs.exe在你的电脑上的路径
     # browser = webdriver.PhantomJS('d:/tool/07-net/phantomjs-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe')
@@ -152,22 +153,22 @@ def main():
     # linux
     display = Display(visible=0, size=(800, 800))
     display.start()
+<<<<<<< HEAD
     browser = webdriver.Chrome()
+=======
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('no-sandbox')
+    browser = webdriver.Chrome(chrome_options=chrome_options)
+    print('11')
+>>>>>>> 97ed6937022691adf7530421bc10a4cef5ac4dc5
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     account_sub = 0
 
     cursor.execute('select * from account where type = %s and have_block = 0 and is_close = 0', ('1',))
     account_values = cursor.fetchall()
-
-    cursor.execute('UPDATE config SET config_value=%s WHERE config_key=10',
-                   [22])
-    account_values = cursor.rowcount
-    conn.commit()
-
-
-
-
     # 登陆,被封号或有滑块验证，立马切号
     user_id = change_login(browser, conn, account_values, account_sub)
     # if user_id == 0:
@@ -187,8 +188,7 @@ def main():
     #         print('封ip')
     #     else:
     #         print('账号不够')
-
-    time.sleep(15)
+    time.sleep(100)
     cookies = browser.get_cookies()
     cookies = json.dumps(cookies)
     cursor.execute('UPDATE config SET config_value=%s WHERE config_key=6',
@@ -198,14 +198,17 @@ def main():
     old_str = request.values.get('url')
     if old_str != None:
         # 内部调用
+
+        print(xx) 
         return redirect(url_for('login', url=old_str))
     else:
         cursor.execute('UPDATE config SET config_value=1 WHERE config_key=7')
         account_values = cursor.rowcount
         conn.commit()
+       
+        print(22)   
         return json.dumps({'code': 200, 'msg': '登录成功'})
     browser.close()
-
 
 
     # except:
@@ -217,7 +220,7 @@ def main():
 
 @server.route('/download', methods=['GET'])
 def download():
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
+    # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
     # 建立Phantomjs浏览器对象，括号里是phantomjs.exe在你的电脑上的路径
     # browser = webdriver.PhantomJS('d:/tool/07-net/phantomjs-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe')
 
@@ -225,8 +228,15 @@ def download():
     display = Display(visible=0, size=(800, 800))
     display.start()
 
+<<<<<<< HEAD
     browser = webdriver.Chrome()
     browser.get('https://www.baidu.com/')
+=======
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('no-sandbox')
+    browser = webdriver.Chrome(chrome_options=chrome_options)
+>>>>>>> 97ed6937022691adf7530421bc10a4cef5ac4dc5
 
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
@@ -281,7 +291,7 @@ def download():
     r = requests.get(href, stream=True, verify=True, headers=headers)
     # r = requests.get(url=url)
     r.encoding = "utf-8"
-    file_path = 'F:/php_project/materialDownload/public/static/py_file/'
+    file_path = '/var/www/html/materialDownload/public/static/py_file/'
     zip_name = file_path + zip_name
     with open(zip_name, 'wb+') as fd:
         for chunk in r.iter_content(1024 * 100):
