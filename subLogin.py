@@ -39,15 +39,27 @@ def login(browser, account, password):
     browser.implicitly_wait(3)
     browser.switch_to.frame('ptlogin_iframe')
     browser.implicitly_wait(1)
-    pLogin_a = browser.find_element_by_id('switcher_plogin')
+
+    WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('switcher_plogin'))
+    # pLogin_a = browser.find_element_by_id('switcher_plogin')
+
     pLogin_a.click()
-    username = browser.find_element_by_name('u')
+
+    WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('u'))
+    # username = browser.find_element_by_name('u')
+
     username.clear()
     username.send_keys(account)
-    password_e = browser.find_element_by_name('p')
+
+    WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('p'))
+    # password_e = browser.find_element_by_name('p')
+
     password_e.clear()
     password_e.send_keys(password)
-    login_button = browser.find_element_by_id('login_button')
+
+    WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('login_button'))
+    # login_button = browser.find_element_by_id('login_button')
+
     login_button.click()
 
 #成功返回用户id
@@ -153,16 +165,12 @@ def main():
     # linux
     display = Display(visible=0, size=(800, 800))
     display.start()
-<<<<<<< HEAD
-    browser = webdriver.Chrome()
-=======
 
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('headless')
     chrome_options.add_argument('no-sandbox')
     browser = webdriver.Chrome(chrome_options=chrome_options)
     print('11')
->>>>>>> 97ed6937022691adf7530421bc10a4cef5ac4dc5
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     account_sub = 0
@@ -205,7 +213,7 @@ def main():
         cursor.execute('UPDATE config SET config_value=1 WHERE config_key=7')
         account_values = cursor.rowcount
         conn.commit()
-       
+
         print(22)   
         return json.dumps({'code': 200, 'msg': '登录成功'})
     browser.close()
@@ -228,15 +236,11 @@ def download():
     display = Display(visible=0, size=(800, 800))
     display.start()
 
-<<<<<<< HEAD
-    browser = webdriver.Chrome()
-    browser.get('https://www.baidu.com/')
-=======
+
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('headless')
     chrome_options.add_argument('no-sandbox')
     browser = webdriver.Chrome(chrome_options=chrome_options)
->>>>>>> 97ed6937022691adf7530421bc10a4cef5ac4dc5
 
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
