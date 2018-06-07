@@ -15,6 +15,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
 
