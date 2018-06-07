@@ -49,7 +49,8 @@ def login(browser, account, password):
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('switcher_plogin'))
     pLogin_a = browser.find_element_by_id('switcher_plogin')
 
-    pLogin_a.click()
+    ActionChains(browser).click(pLogin_a).perform()
+    # pLogin_a.click()
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('u'))
     username = browser.find_element_by_name('u')
