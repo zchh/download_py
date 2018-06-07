@@ -28,14 +28,18 @@ headers = {
         }
 
 
-
 def database():
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     return conn.cursor()
 
 def login(browser, account, password):
     url = r'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100414805&redirect_uri=http%3A%2F%2Fwww.58pic.com%2Findex.php%3Fm%3Dlogin%26a%3Dcallback%26type%3Dqq&response_type=code&scope=get_user_info%2Cadd_share%2Cadd_pic_t'
-    browser.get(url)
+    # browser.get(url)
+    try:
+        browser.get(url)
+    except TimeoutException:
+        print('time out after 30 seconds when loading page')
+        driver.execute_script('window.stop()')  # 当页面加载时间超过设定时间，通过执行Javascript
     browser.implicitly_wait(3)
     browser.switch_to.frame('ptlogin_iframe')
     browser.implicitly_wait(1)
@@ -50,6 +54,9 @@ def login(browser, account, password):
 
     username.clear()
     username.send_keys(account)
+    
+    print('account')
+    print(account)
 
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_name('p'))
     password_e = browser.find_element_by_name('p')
@@ -62,7 +69,8 @@ def login(browser, account, password):
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('login_button'))
     login_button = browser.find_element_by_id('login_button')
 
-
+    print('html_1')
+    print(browser.page_source)
 
     login_button.click()
 
@@ -173,12 +181,12 @@ def main():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('headless')
     chrome_options.add_argument('no-sandbox')
-    browser = webdriver.Chrome(chrome_options=chrome_options)
+    browser = webdriver.Chrome(chrome_options=chrome_options) 
+    browser.set_page_load_timeout(30)
     print('11')
     conn = mysql.connector.connect(user='root', password='ZC123', database='material_download')
     cursor = conn.cursor()
     account_sub = 0
-
     cursor.execute('select * from account where type = %s and have_block = 0 and is_close = 0', ('1',))
     account_values = cursor.fetchall()
     # 登陆,被封号或有滑块验证，立马切号
@@ -201,6 +209,11 @@ def main():
     #     else:
     #         print('账号不够')
     time.sleep(100)
+
+
+    pinrt('html2')
+    print(browser.page_source)    
+
     cookies = browser.get_cookies()
     cookies = json.dumps(cookies)
     cursor.execute('UPDATE config SET config_value=%s WHERE config_key=6',
@@ -235,7 +248,6 @@ def download():
     # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
     # 建立Phantomjs浏览器对象，括号里是phantomjs.exe在你的电脑上的路径
     # browser = webdriver.PhantomJS('d:/tool/07-net/phantomjs-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe')
-
     # linux
     display = Display(visible=0, size=(800, 800))
     display.start()
