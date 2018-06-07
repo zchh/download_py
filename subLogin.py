@@ -57,8 +57,12 @@ def login(browser, account, password):
     password_e.clear()
     password_e.send_keys(password)
 
+
+
     WebDriverWait(browser, 200).until(lambda the_driver: the_driver.find_element_by_id('login_button'))
     login_button = browser.find_element_by_id('login_button')
+
+
 
     login_button.click()
 
@@ -81,7 +85,7 @@ def change_login(browser, conn, account_values, account_sub):
             account_id = account_values[account_sub][0]
             cursor.execute('UPDATE account SET have_block=1 WHERE account_id=%s',
                            (account_id,))
-            account_values = cursor.rowcount
+            # account_values = cursor.rowcount
             conn.commit()
 
             account_sub = account_sub + 1
@@ -98,7 +102,7 @@ def change_login(browser, conn, account_values, account_sub):
         account_id = account_values[account_sub][0]
         cursor.execute('UPDATE account SET is_close=1 WHERE account_id=%s',
                        (account_id,))
-        account_values = cursor.rowcount
+        # account_values = cursor.rowcount
         conn.commit()
         account_sub = account_sub + 1
         if account_sub == len(account_values):
