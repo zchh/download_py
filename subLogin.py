@@ -40,7 +40,7 @@ def login(browser, account, password):
         browser.get(url)
     except TimeoutException:
         print('time out after 30 seconds when loading page')
-        driver.execute_script('window.stop()')  # 当页面加载时间超过设定时间，通过执行Javascript
+        browser.execute_script('window.stop()')  # 当页面加载时间超过设定时间，通过执行Javascript
     browser.implicitly_wait(3)
     browser.switch_to.frame('ptlogin_iframe')
     browser.implicitly_wait(1)
