@@ -22,7 +22,7 @@ class ChipWidget:
     _HEIGHT = 80
 
     def __init__(self,
-                 master = None,
+                 main = None,
                  width  = _WIDTH,
                  height = _HEIGHT,
                  text   = 'Color',
@@ -30,10 +30,10 @@ class ChipWidget:
                  presscmd   = None,
                  releasecmd = None):
         # create the text label
-        self.__label = Label(master, text=text)
+        self.__label = Label(main, text=text)
         self.__label.grid(row=0, column=0)
         # create the color chip, implemented as a frame
-        self.__chip = Frame(master, relief=RAISED, borderwidth=2,
+        self.__chip = Frame(main, relief=RAISED, borderwidth=2,
                             width=width,
                             height=height,
                             background=initialcolor)
@@ -41,13 +41,13 @@ class ChipWidget:
         # create the color name
         self.__namevar = StringVar()
         self.__namevar.set(initialcolor)
-        self.__name = Entry(master, textvariable=self.__namevar,
+        self.__name = Entry(main, textvariable=self.__namevar,
                             relief=FLAT, justify=CENTER, state=DISABLED,
                             font=self.__label['font'])
         self.__name.grid(row=2, column=0)
         # create the message area
         self.__msgvar = StringVar()
-        self.__name = Entry(master, textvariable=self.__msgvar,
+        self.__name = Entry(main, textvariable=self.__msgvar,
                             relief=FLAT, justify=CENTER, state=DISABLED,
                             font=self.__label['font'])
         self.__name.grid(row=3, column=0)
@@ -78,9 +78,9 @@ class ChipWidget:
 
 
 class ChipViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         self.__sb = switchboard
-        self.__frame = Frame(master, relief=RAISED, borderwidth=1)
+        self.__frame = Frame(main, relief=RAISED, borderwidth=1)
         self.__frame.grid(row=3, column=0, ipadx=5, sticky='NSEW')
         # create the chip that will display the currently selected color
         # exactly

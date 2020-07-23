@@ -37,7 +37,7 @@ otherwise the first character is underlined).
 
 FooViewer.py should contain a class called FooViewer, and its constructor
 should take two arguments, an instance of Switchboard, and optionally a Tk
-master window.
+main window.
 
 """
 

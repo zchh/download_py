@@ -120,7 +120,7 @@ def initial_color(s, colordb):
 
 
 
-def build(master=None, initialcolor=None, initfile=None, ignore=None,
+def build(main=None, initialcolor=None, initfile=None, ignore=None,
           dbfile=None):
     # create all output widgets
     s = Switchboard(not ignore and initfile)
@@ -147,7 +147,7 @@ def build(master=None, initialcolor=None, initfile=None, ignore=None,
     s.set_colordb(colordb)
 
     # create the application window decorations
-    app = PyncheWidget(__version__, s, master=master)
+    app = PyncheWidget(__version__, s, main=main)
     w = app.window()
 
     # these built-in viewers live inside the main Pynche window

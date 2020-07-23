@@ -2503,11 +2503,11 @@ class FDInheritanceTests(unittest.TestCase):
 
     @unittest.skipUnless(hasattr(os, 'openpty'), "need os.openpty()")
     def test_openpty(self):
-        master_fd, slave_fd = os.openpty()
-        self.addCleanup(os.close, master_fd)
-        self.addCleanup(os.close, slave_fd)
-        self.assertEqual(os.get_inheritable(master_fd), False)
-        self.assertEqual(os.get_inheritable(slave_fd), False)
+        main_fd, subordinate_fd = os.openpty()
+        self.addCleanup(os.close, main_fd)
+        self.addCleanup(os.close, subordinate_fd)
+        self.assertEqual(os.get_inheritable(main_fd), False)
+        self.assertEqual(os.get_inheritable(subordinate_fd), False)
 
 
 @support.reap_threads

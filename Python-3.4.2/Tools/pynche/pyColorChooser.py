@@ -10,12 +10,12 @@ import ColorDB
 class Chooser:
     """Ask for a color"""
     def __init__(self,
-                 master = None,
+                 main = None,
                  databasefile = None,
                  initfile = None,
                  ignore = None,
                  wantspec = None):
-        self.__master = master
+        self.__main = main
         self.__databasefile = databasefile
         self.__initfile = initfile or os.path.expanduser('~/.pynche')
         self.__ignore = ignore
@@ -30,12 +30,12 @@ class Chooser:
         colordb = None
         if dbfile != self.__databasefile:
             colordb = ColorDB.get_colordb(dbfile)
-        if not self.__master:
+        if not self.__main:
             from tkinter import Tk
-            self.__master = Tk()
+            self.__main = Tk()
         if not self.__pw:
             self.__pw, self.__sb = \
-                       Main.build(master = self.__master,
+                       Main.build(main = self.__main,
                                   initfile = self.__initfile,
                                   ignore = self.__ignore)
         else:
@@ -105,7 +105,7 @@ if __name__ == '__main__':
             q.pack()
 
         def __choose(self, event=None):
-            rgb, name = askcolor(master=self.__root)
+            rgb, name = askcolor(main=self.__root)
             if rgb is None:
                 text = 'You hit CANCEL!'
             else:

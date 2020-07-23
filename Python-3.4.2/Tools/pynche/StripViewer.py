@@ -163,7 +163,7 @@ class StripWidget:
     _NUMCHIPS = 40
 
     def __init__(self, switchboard,
-                 master     = None,
+                 main     = None,
                  chipwidth  = _CHIPWIDTH,
                  chipheight = _CHIPHEIGHT,
                  numchips   = _NUMCHIPS,
@@ -187,7 +187,7 @@ class StripWidget:
         canvasheight = chipheight + 43            # BAW: Kludge
 
         # create the canvas and pack it
-        canvas = self.__canvas = Canvas(master,
+        canvas = self.__canvas = Canvas(main,
                                         width=canvaswidth,
                                         height=canvasheight,
 ##                                        borderwidth=2,
@@ -314,11 +314,11 @@ class StripWidget:
 
 
 class StripViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         self.__sb = switchboard
         optiondb = switchboard.optiondb()
-        # create a frame inside the master.
-        frame = Frame(master, relief=RAISED, borderwidth=1)
+        # create a frame inside the main.
+        frame = Frame(main, relief=RAISED, borderwidth=1)
         frame.grid(row=1, column=0, columnspan=2, sticky='NSEW')
         # create the options to be used later
         uwd = self.__uwdvar = BooleanVar()

@@ -11,12 +11,12 @@ class DynOptionMenu(OptionMenu):
     """
     unlike OptionMenu, our kwargs can include highlightthickness
     """
-    def __init__(self, master, variable, value, *values, **kwargs):
+    def __init__(self, main, variable, value, *values, **kwargs):
         #get a copy of kwargs before OptionMenu.__init__ munges them
         kwargsCopy=copy.copy(kwargs)
         if 'highlightthickness' in list(kwargs.keys()):
             del(kwargs['highlightthickness'])
-        OptionMenu.__init__(self, master, variable, value, *values, **kwargs)
+        OptionMenu.__init__(self, main, variable, value, *values, **kwargs)
         self.config(highlightthickness=kwargsCopy.get('highlightthickness'))
         #self.menu=self['menu']
         self.variable=variable

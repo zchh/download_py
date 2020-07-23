@@ -17,7 +17,7 @@ from tkinter import *
 
 
 class TypeinViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         # non-gui ivars
         self.__sb = switchboard
         optiondb = switchboard.optiondb()
@@ -26,7 +26,7 @@ class TypeinViewer:
         self.__uwtyping = BooleanVar()
         self.__uwtyping.set(optiondb.get('UPWHILETYPE', 0))
         # create the gui
-        self.__frame = Frame(master, relief=RAISED, borderwidth=1)
+        self.__frame = Frame(main, relief=RAISED, borderwidth=1)
         self.__frame.grid(row=3, column=1, sticky='NSEW')
         # Red
         self.__xl = Label(self.__frame, text='Red:')

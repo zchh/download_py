@@ -21,13 +21,13 @@ import ColorDB
 ADDTOVIEW = 'Color %List Window...'
 
 class ListViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         self.__sb = switchboard
         optiondb = switchboard.optiondb()
         self.__lastbox = None
         self.__dontcenter = 0
         # GUI
-        root = self.__root = Toplevel(master, class_='Pynche')
+        root = self.__root = Toplevel(main, class_='Pynche')
         root.protocol('WM_DELETE_WINDOW', self.withdraw)
         root.title('Pynche Color List')
         root.iconname('Pynche Color List')

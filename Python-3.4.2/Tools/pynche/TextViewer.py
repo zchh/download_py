@@ -23,10 +23,10 @@ ADDTOVIEW = 'Text Window...'
 
 
 class TextViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         self.__sb = switchboard
         optiondb = switchboard.optiondb()
-        root = self.__root = Toplevel(master, class_='Pynche')
+        root = self.__root = Toplevel(main, class_='Pynche')
         root.protocol('WM_DELETE_WINDOW', self.withdraw)
         root.title('Pynche Text Window')
         root.iconname('Pynche Text Window')

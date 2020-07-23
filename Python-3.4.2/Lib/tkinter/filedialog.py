@@ -29,7 +29,7 @@ class FileDialog:
 
     Usage:
 
-        d = FileDialog(master)
+        d = FileDialog(main)
         fname = d.go(dir_or_file, pattern, default, key)
         if fname is None: ...canceled...
         else: ...open file...
@@ -48,12 +48,12 @@ class FileDialog:
 
     title = "File Selection Dialog"
 
-    def __init__(self, master, title=None):
+    def __init__(self, main, title=None):
         if title is None: title = self.title
-        self.master = master
+        self.main = main
         self.directory = None
 
-        self.top = Toplevel(master)
+        self.top = Toplevel(main)
         self.top.title(title)
         self.top.iconname(title)
 
@@ -127,7 +127,7 @@ class FileDialog:
         self.top.wait_visibility() # window needs to be visible for the grab
         self.top.grab_set()
         self.how = None
-        self.master.mainloop()          # Exited by self.quit(how)
+        self.main.mainloop()          # Exited by self.quit(how)
         if key:
             directory, pattern = self.get_filter()
             if self.how:
@@ -138,7 +138,7 @@ class FileDialog:
 
     def quit(self, how=None):
         self.how = how
-        self.master.quit()              # Exit mainloop()
+        self.main.quit()              # Exit mainloop()
 
     def dirs_double_event(self, event):
         self.filter_command()
@@ -167,7 +167,7 @@ class FileDialog:
         try:
             names = os.listdir(dir)
         except OSError:
-            self.master.bell()
+            self.main.bell()
             return
         self.directory = dir
         self.set_filter(dir, pat)
@@ -231,7 +231,7 @@ class LoadFileDialog(FileDialog):
     def ok_command(self):
         file = self.get_selection()
         if not os.path.isfile(file):
-            self.master.bell()
+            self.main.bell()
         else:
             self.quit(file)
 
@@ -246,7 +246,7 @@ class SaveFileDialog(FileDialog):
         file = self.get_selection()
         if os.path.exists(file):
             if os.path.isdir(file):
-                self.master.bell()
+                self.main.bell()
                 return
             d = Dialog(self.top,
                        title="Overwrite Existing File Question",
@@ -259,7 +259,7 @@ class SaveFileDialog(FileDialog):
         else:
             head, tail = os.path.split(file)
             if not os.path.isdir(head):
-                self.master.bell()
+                self.main.bell()
                 return
         self.quit(file)
 

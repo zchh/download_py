@@ -16,7 +16,7 @@ KEEPALIVE_TIMER = 500
 
 
 class PyncheWidget:
-    def __init__(self, version, switchboard, master=None, extrapath=[]):
+    def __init__(self, version, switchboard, main=None, extrapath=[]):
         self.__sb = switchboard
         self.__version = version
         self.__textwin = None
@@ -24,13 +24,13 @@ class PyncheWidget:
         self.__detailswin = None
         self.__helpwin = None
         self.__dialogstate = {}
-        modal = self.__modal = not not master
-        # If a master was given, we are running as a modal dialog servant to
+        modal = self.__modal = not not main
+        # If a main was given, we are running as a modal dialog servant to
         # some other application.  We rearrange our UI in this case (there's
         # no File menu and we get `Okay' and `Cancel' buttons), and we do a
         # grab_set() to make ourselves modal
         if modal:
-            self.__tkroot = tkroot = Toplevel(master, class_='Pynche')
+            self.__tkroot = tkroot = Toplevel(main, class_='Pynche')
             tkroot.grab_set()
             tkroot.withdraw()
         else:
@@ -200,9 +200,9 @@ Unrecognized color file type in file:
 
 
 class Helpwin:
-    def __init__(self, master, quitfunc):
+    def __init__(self, main, quitfunc):
         from Main import docstring
-        self.__root = root = Toplevel(master, class_='Pynche')
+        self.__root = root = Toplevel(main, class_='Pynche')
         root.protocol('WM_DELETE_WINDOW', self.__withdraw)
         root.title('Pynche Help Window')
         root.iconname('Pynche Help Window')
