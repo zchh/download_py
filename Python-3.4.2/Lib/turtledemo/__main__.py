@@ -273,8 +273,8 @@ class DemoWindow(object):
                               bg="#d00" if clear == NORMAL else"#fca")
         self.output_lbl.config(text=txt, fg=color)
 
-    def makeLoadDemoMenu(self, master):
-        menu = Menu(master)
+    def makeLoadDemoMenu(self, main):
+        menu = Menu(main)
 
         for entry in getExampleEntries():
             def load(entry=entry):
@@ -283,8 +283,8 @@ class DemoWindow(object):
                              font=menufont, command=load)
         return menu
 
-    def makeFontMenu(self, master):
-        menu = Menu(master)
+    def makeFontMenu(self, main):
+        menu = Menu(main)
         menu.add_command(label="Decrease (C-'-')", command=self.decrease_size,
                          font=menufont)
         menu.add_command(label="Increase (C-'+')", command=self.increase_size,
@@ -298,8 +298,8 @@ class DemoWindow(object):
                              font=menufont, command=resize)
         return menu
 
-    def makeHelpMenu(self, master):
-        menu = Menu(master)
+    def makeHelpMenu(self, main):
+        menu = Menu(main)
 
         for help_label, help_file in help_entries:
             def show(help_label=help_label, help_file=help_file):

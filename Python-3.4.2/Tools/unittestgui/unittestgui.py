@@ -209,7 +209,7 @@ class DiscoverSettingsDialog(simpledialog.Dialog):
     Dialog box for prompting test discovery settings
     """
 
-    def __init__(self, master, top_level_dir, test_file_glob_pattern, *args, **kwargs):
+    def __init__(self, main, top_level_dir, test_file_glob_pattern, *args, **kwargs):
         self.top_level_dir = top_level_dir
         self.dirVar = tk.StringVar()
         self.dirVar.set(top_level_dir)
@@ -218,23 +218,23 @@ class DiscoverSettingsDialog(simpledialog.Dialog):
         self.testPatternVar = tk.StringVar()
         self.testPatternVar.set(test_file_glob_pattern)
 
-        simpledialog.Dialog.__init__(self, master, title="Discover Settings",
+        simpledialog.Dialog.__init__(self, main, title="Discover Settings",
                                      *args, **kwargs)
 
-    def body(self, master):
-        tk.Label(master, text="Top Level Directory").grid(row=0)
-        self.e1 = tk.Entry(master, textvariable=self.dirVar)
+    def body(self, main):
+        tk.Label(main, text="Top Level Directory").grid(row=0)
+        self.e1 = tk.Entry(main, textvariable=self.dirVar)
         self.e1.grid(row = 0, column=1)
-        tk.Button(master, text="...",
-                  command=lambda: self.selectDirClicked(master)).grid(row=0,column=3)
+        tk.Button(main, text="...",
+                  command=lambda: self.selectDirClicked(main)).grid(row=0,column=3)
 
-        tk.Label(master, text="Test File Pattern").grid(row=1)
-        self.e2 = tk.Entry(master, textvariable = self.testPatternVar)
+        tk.Label(main, text="Test File Pattern").grid(row=1)
+        self.e2 = tk.Entry(main, textvariable = self.testPatternVar)
         self.e2.grid(row = 1, column=1)
         return None
 
-    def selectDirClicked(self, master):
-        dir_path = filedialog.askdirectory(parent=master)
+    def selectDirClicked(self, main):
+        dir_path = filedialog.askdirectory(parent=main)
         if dir_path:
             self.dirVar.set(dir_path)
 

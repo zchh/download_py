@@ -4,21 +4,21 @@
 
 Invoke with two arguments:
 
-python treesync.py slave master
+python treesync.py subordinate main
 
-The assumption is that "master" contains CVS administration while
-slave doesn't.  All files in the slave tree that have a CVS/Entries
-entry in the master tree are synchronized.  This means:
+The assumption is that "main" contains CVS administration while
+subordinate doesn't.  All files in the subordinate tree that have a CVS/Entries
+entry in the main tree are synchronized.  This means:
 
     If the files differ:
-        if the slave file is newer:
-            normalize the slave file
+        if the subordinate file is newer:
+            normalize the subordinate file
             if the files still differ:
-                copy the slave to the master
-        else (the master is newer):
-            copy the master to the slave
+                copy the subordinate to the main
+        else (the main is newer):
+            copy the main to the subordinate
 
-    normalizing the slave means replacing CRLF with LF when the master
+    normalizing the subordinate means replacing CRLF with LF when the main
     doesn't use CRLF
 
 """
@@ -29,12 +29,12 @@ import os, sys, stat, getopt
 default_answer = "ask"
 create_files = "yes"
 create_directories = "no"
-write_slave = "ask"
-write_master = "ask"
+write_subordinate = "ask"
+write_main = "ask"
 
 def main():
     global always_no, always_yes
-    global create_directories, write_master, write_slave
+    global create_directories, write_main, write_subordinate
     opts, args = getopt.getopt(sys.argv[1:], "nym:s:d:f:a:")
     for o, a in opts:
         if o == '-y':
@@ -42,88 +42,88 @@ def main():
         if o == '-n':
             default_answer = "no"
         if o == '-s':
-            write_slave = a
+            write_subordinate = a
         if o == '-m':
-            write_master = a
+            write_main = a
         if o == '-d':
             create_directories = a
         if o == '-f':
             create_files = a
         if o == '-a':
-            create_files = create_directories = write_slave = write_master = a
+            create_files = create_directories = write_subordinate = write_main = a
     try:
-        [slave, master] = args
+        [subordinate, main] = args
     except ValueError:
         print("usage: python", sys.argv[0] or "treesync.py", end=' ')
         print("[-n] [-y] [-m y|n|a] [-s y|n|a] [-d y|n|a] [-f n|y|a]", end=' ')
-        print("slavedir masterdir")
+        print("subordinatedir maindir")
         return
-    process(slave, master)
+    process(subordinate, main)
 
-def process(slave, master):
-    cvsdir = os.path.join(master, "CVS")
+def process(subordinate, main):
+    cvsdir = os.path.join(main, "CVS")
     if not os.path.isdir(cvsdir):
-        print("skipping master subdirectory", master)
+        print("skipping main subdirectory", main)
         print("-- not under CVS")
         return
     print("-"*40)
-    print("slave ", slave)
-    print("master", master)
-    if not os.path.isdir(slave):
-        if not okay("create slave directory %s?" % slave,
+    print("subordinate ", subordinate)
+    print("main", main)
+    if not os.path.isdir(subordinate):
+        if not okay("create subordinate directory %s?" % subordinate,
                     answer=create_directories):
-            print("skipping master subdirectory", master)
-            print("-- no corresponding slave", slave)
+            print("skipping main subdirectory", main)
+            print("-- no corresponding subordinate", subordinate)
             return
-        print("creating slave directory", slave)
+        print("creating subordinate directory", subordinate)
         try:
-            os.mkdir(slave)
+            os.mkdir(subordinate)
         except OSError as msg:
-            print("can't make slave directory", slave, ":", msg)
+            print("can't make subordinate directory", subordinate, ":", msg)
             return
         else:
-            print("made slave directory", slave)
+            print("made subordinate directory", subordinate)
     cvsdir = None
     subdirs = []
-    names = os.listdir(master)
+    names = os.listdir(main)
     for name in names:
-        mastername = os.path.join(master, name)
-        slavename = os.path.join(slave, name)
+        mainname = os.path.join(main, name)
+        subordinatename = os.path.join(subordinate, name)
         if name == "CVS":
-            cvsdir = mastername
+            cvsdir = mainname
         else:
-            if os.path.isdir(mastername) and not os.path.islink(mastername):
-                subdirs.append((slavename, mastername))
+            if os.path.isdir(mainname) and not os.path.islink(mainname):
+                subdirs.append((subordinatename, mainname))
     if cvsdir:
         entries = os.path.join(cvsdir, "Entries")
         for e in open(entries).readlines():
             words = e.split('/')
             if words[0] == '' and words[1:]:
                 name = words[1]
-                s = os.path.join(slave, name)
-                m = os.path.join(master, name)
+                s = os.path.join(subordinate, name)
+                m = os.path.join(main, name)
                 compare(s, m)
     for (s, m) in subdirs:
         process(s, m)
 
-def compare(slave, master):
+def compare(subordinate, main):
     try:
-        sf = open(slave, 'r')
+        sf = open(subordinate, 'r')
     except IOError:
         sf = None
     try:
-        mf = open(master, 'rb')
+        mf = open(main, 'rb')
     except IOError:
         mf = None
     if not sf:
         if not mf:
-            print("Neither master nor slave exists", master)
+            print("Neither main nor subordinate exists", main)
             return
-        print("Creating missing slave", slave)
-        copy(master, slave, answer=create_files)
+        print("Creating missing subordinate", subordinate)
+        copy(main, subordinate, answer=create_files)
         return
     if not mf:
-        print("Not updating missing master", master)
+        print("Not updating missing main", main)
         return
     if sf and mf:
         if identical(sf, mf):
@@ -131,15 +131,15 @@ def compare(slave, master):
     sft = mtime(sf)
     mft = mtime(mf)
     if mft > sft:
-        # Master is newer -- copy master to slave
+        # Main is newer -- copy main to subordinate
         sf.close()
         mf.close()
-        print("Master             ", master)
-        print("is newer than slave", slave)
-        copy(master, slave, answer=write_slave)
+        print("Main             ", main)
+        print("is newer than subordinate", subordinate)
+        copy(main, subordinate, answer=write_subordinate)
         return
-    # Slave is newer -- copy slave to master
-    print("Slave is", sft-mft, "seconds newer than master")
+    # Subordinate is newer -- copy subordinate to main
+    print("Subordinate is", sft-mft, "seconds newer than main")
     # But first check what to do about CRLF
     mf.seek(0)
     fun = funnychars(mf)
@@ -147,10 +147,10 @@ def compare(slave, master):
     sf.close()
     if fun:
         print("***UPDATING MASTER (BINARY COPY)***")
-        copy(slave, master, "rb", answer=write_master)
+        copy(subordinate, main, "rb", answer=write_main)
     else:
         print("***UPDATING MASTER***")
-        copy(slave, master, "r", answer=write_master)
+        copy(subordinate, main, "r", answer=write_main)
 
 BUFSIZE = 16*1024
 

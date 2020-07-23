@@ -770,7 +770,7 @@ class _NNTPBase:
             cmd = 'ARTICLE'
         return self._artcmd(cmd, file)
 
-    def slave(self):
+    def subordinate(self):
         """Process a SLAVE command.  Returns:
         - resp: server response if successful
         """

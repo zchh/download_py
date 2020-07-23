@@ -7,31 +7,31 @@ import re
 
 class ReDemo:
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self, main):
+        self.main = main
 
-        self.promptdisplay = Label(self.master, anchor=W,
+        self.promptdisplay = Label(self.main, anchor=W,
                 text="Enter a Perl-style regular expression:")
         self.promptdisplay.pack(side=TOP, fill=X)
 
-        self.regexdisplay = Entry(self.master)
+        self.regexdisplay = Entry(self.main)
         self.regexdisplay.pack(fill=X)
         self.regexdisplay.focus_set()
 
         self.addoptions()
 
-        self.statusdisplay = Label(self.master, text="", anchor=W)
+        self.statusdisplay = Label(self.main, text="", anchor=W)
         self.statusdisplay.pack(side=TOP, fill=X)
 
-        self.labeldisplay = Label(self.master, anchor=W,
+        self.labeldisplay = Label(self.main, anchor=W,
                 text="Enter a string to search:")
         self.labeldisplay.pack(fill=X)
         self.labeldisplay.pack(fill=X)
 
-        self.showframe = Frame(master)
+        self.showframe = Frame(main)
         self.showframe.pack(fill=X, anchor=W)
 
-        self.showvar = StringVar(master)
+        self.showvar = StringVar(main)
         self.showvar.set("first")
 
         self.showfirstradio = Radiobutton(self.showframe,
@@ -48,14 +48,14 @@ class ReDemo:
                                         command=self.recompile)
         self.showallradio.pack(side=LEFT)
 
-        self.stringdisplay = Text(self.master, width=60, height=4)
+        self.stringdisplay = Text(self.main, width=60, height=4)
         self.stringdisplay.pack(fill=BOTH, expand=1)
         self.stringdisplay.tag_configure("hit", background="yellow")
 
-        self.grouplabel = Label(self.master, text="Groups:", anchor=W)
+        self.grouplabel = Label(self.main, text="Groups:", anchor=W)
         self.grouplabel.pack(fill=X)
 
-        self.grouplist = Listbox(self.master)
+        self.grouplist = Listbox(self.main)
         self.grouplist.pack(expand=1, fill=BOTH)
 
         self.regexdisplay.bind('<Key>', self.recompile)
@@ -80,7 +80,7 @@ class ReDemo:
                      'DOTALL',
                      'VERBOSE'):
             if len(self.boxes) % 3 == 0:
-                frame = Frame(self.master)
+                frame = Frame(self.main)
                 frame.pack(fill=X)
                 self.frames.append(frame)
             val = getattr(re, name)

@@ -63,12 +63,12 @@ ADDTOVIEW = 'Details Window...'
 
 
 class DetailsViewer:
-    def __init__(self, switchboard, master=None):
+    def __init__(self, switchboard, main=None):
         self.__sb = switchboard
         optiondb = switchboard.optiondb()
         self.__red, self.__green, self.__blue = switchboard.current_rgb()
         # GUI
-        root = self.__root = Toplevel(master, class_='Pynche')
+        root = self.__root = Toplevel(main, class_='Pynche')
         root.protocol('WM_DELETE_WINDOW', self.withdraw)
         root.title('Pynche Details Window')
         root.iconname('Pynche Details Window')

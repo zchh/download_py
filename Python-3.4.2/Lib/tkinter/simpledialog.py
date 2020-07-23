@@ -30,13 +30,13 @@ import tkinter # used at _QueryDialog for tkinter._default_root
 
 class SimpleDialog:
 
-    def __init__(self, master,
+    def __init__(self, main,
                  text='', buttons=[], default=None, cancel=None,
                  title=None, class_=None):
         if class_:
-            self.root = Toplevel(master, class_=class_)
+            self.root = Toplevel(main, class_=class_)
         else:
-            self.root = Toplevel(master)
+            self.root = Toplevel(main)
         if title:
             self.root.title(title)
             self.root.iconname(title)
@@ -56,32 +56,32 @@ class SimpleDialog:
                 b.config(relief=RIDGE, borderwidth=8)
             b.pack(side=LEFT, fill=BOTH, expand=1)
         self.root.protocol('WM_DELETE_WINDOW', self.wm_delete_window)
-        self._set_transient(master)
+        self._set_transient(main)
 
-    def _set_transient(self, master, relx=0.5, rely=0.3):
+    def _set_transient(self, main, relx=0.5, rely=0.3):
         widget = self.root
         widget.withdraw() # Remain invisible while we figure out the geometry
-        widget.transient(master)
+        widget.transient(main)
         widget.update_idletasks() # Actualize geometry information
-        if master.winfo_ismapped():
-            m_width = master.winfo_width()
-            m_height = master.winfo_height()
-            m_x = master.winfo_rootx()
-            m_y = master.winfo_rooty()
+        if main.winfo_ismapped():
+            m_width = main.winfo_width()
+            m_height = main.winfo_height()
+            m_x = main.winfo_rootx()
+            m_y = main.winfo_rooty()
         else:
-            m_width = master.winfo_screenwidth()
-            m_height = master.winfo_screenheight()
+            m_width = main.winfo_screenwidth()
+            m_height = main.winfo_screenheight()
             m_x = m_y = 0
         w_width = widget.winfo_reqwidth()
         w_height = widget.winfo_reqheight()
         x = m_x + (m_width - w_width) * relx
         y = m_y + (m_height - w_height) * rely
-        if x+w_width > master.winfo_screenwidth():
-            x = master.winfo_screenwidth() - w_width
+        if x+w_width > main.winfo_screenwidth():
+            x = main.winfo_screenwidth() - w_width
         elif x < 0:
             x = 0
-        if y+w_height > master.winfo_screenheight():
-            y = master.winfo_screenheight() - w_height
+        if y+w_height > main.winfo_screenheight():
+            y = main.winfo_screenheight() - w_height
         elif y < 0:
             y = 0
         widget.geometry("+%d+%d" % (x, y))
@@ -131,7 +131,7 @@ class Dialog(Toplevel):
         Toplevel.__init__(self, parent)
 
         self.withdraw() # remain invisible for now
-        # If the master is not viewable, don't
+        # If the main is not viewable, don't
         # make the child transient, or else it
         # would be opened withdrawn
         if parent.winfo_viewable():
@@ -176,7 +176,7 @@ class Dialog(Toplevel):
     #
     # construction hooks
 
-    def body(self, master):
+    def body(self, main):
         '''create dialog body.
 
         return widget that should have initial focus.
@@ -274,12 +274,12 @@ class _QueryDialog(Dialog):
         self.entry = None
         Dialog.destroy(self)
 
-    def body(self, master):
+    def body(self, main):
 
-        w = Label(master, text=self.prompt, justify=LEFT)
+        w = Label(main, text=self.prompt, justify=LEFT)
         w.grid(row=0, padx=5, sticky=W)
 
-        self.entry = Entry(master, name="entry")
+        self.entry = Entry(main, name="entry")
         self.entry.grid(row=1, padx=5, sticky=W+E)
 
         if self.initialvalue is not None:
@@ -369,8 +369,8 @@ class _QueryString(_QueryDialog):
             self.__show = None
         _QueryDialog.__init__(self, *args, **kw)
 
-    def body(self, master):
-        entry = _QueryDialog.body(self, master)
+    def body(self, main):
+        entry = _QueryDialog.body(self, main)
         if self.__show is not None:
             entry.configure(show=self.__show)
         return entry

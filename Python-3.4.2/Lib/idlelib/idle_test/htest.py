@@ -30,7 +30,7 @@ _spec = {
 file (no .py): used in run() to import the file and get X.
 kwds: passed to X (**kwds), after 'parent' is added, to initialize X.
 title: an example; used for some widgets, delete if not.
-msg: displayed in a master window. Hints as to how the user might
+msg: displayed in a main window. Hints as to how the user might
   test the widget. Close the window to skip or end the test.
 
 Modules not being tested at the moment:
